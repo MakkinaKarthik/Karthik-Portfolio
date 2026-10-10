@@ -1,20 +1,21 @@
-name: Update GitHub Username URL
+name: Fix HTML Username Instances
 
 on:
   workflow_dispatch: 
 
 jobs:
-  replace-url:
+  replace-username:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Find and Replace Username URL
+      - name: Replace all instances in HTML files
         run: |
-          find . -type f -not -path '*/.*' -exec perl -pi -e 's|https://github.com|https://github.com|g' {} +
+          # This will target only .html files and swap the username text anywhere it appears
+          find . -type f -name "*.html" -exec perl -pi -e 's/Karthik-630/MakkinaKarthik/g' {} +
 
       - name: Commit and Push Changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Refactor: Update profile URL to MakkinaKarthik"
+          commit_message: "Refactor: Clean up remaining username instances in HTML"
